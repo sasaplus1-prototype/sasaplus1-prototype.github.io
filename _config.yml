@@ -1,0 +1,38 @@
+name:
+  prototype
+
+url:
+  https://sasaplus1-prototype.github.io
+
+timezone:
+  Asia/Tokyo
+
+future:
+  true
+
+markdown:
+  kramdown
+
+highlighter:
+  rouge
+
+kramdown:
+  input: GFM
+
+sass:
+  style: compressed
+
+gems:
+  - jekyll-gist
+  - jekyll-github-metadata
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jemoji
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - Rakefile
+  - vendor
