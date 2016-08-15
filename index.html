@@ -1,0 +1,73 @@
+---
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>{{ site.name | escape }}</title>
+    <link rel="canonical" href="{{ site.url }}">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poiret+One">
+    <link rel="stylesheet" href="index.css">
+  </head>
+  <body class="index">
+
+    <header class="header">
+      <div class="header__inner">
+        <div class="header__title title">
+          <a class="title__link" href="/"><!--
+            --><h1 class="title__text">{{ site.name }}</h1><!--
+          --></a>
+        </div>
+      </div>
+    </header>
+
+    <main class="main" role="main">
+      <nav class="main__repositories repositories">
+        <ul class="repositories__list list clearfix">
+          {% for repository in site.github.public_repositories %}
+          <li class="list__item item">
+            <h2 class="item__name">{{ repository.name }}</h2>
+            <span class="item__description">{{ repository.description }}</span>
+            <div class="item__links">
+              {% if repository.html_url %}
+              <a class="links__link" href="{{ repository.html_url }}" title="{{ repository.html_url }}"><!--
+                --><span class="ion-social-github"></span><!--
+              --></a>
+              {% endif %}
+              {% if repository.homepage %}
+              <a class="links__link" href="{{ repository.homepage }}" title="{{ repository.homepage }}"><!--
+                --><span class="ion-monitor"></span><!--
+              --></a>
+            </div>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <div class="main__arrow arrow">
+        <a class="arrow__link" href="javascript:void 0" onclick="
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        "><!--
+          --><span class="arrow__text ion-arrow-up-b"></span><!--
+        --></a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__copyright copyright">
+          <small class="copyright__text">
+            <a class="copyright__link" href="/">{{ site.name }}</a> &copy; 2016 sasa+1
+          </small>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>
