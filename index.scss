@@ -8,12 +8,6 @@
 	}
 }
 
-.clearfix::after {
-	clear: both;
-	content: "";
-	display: block;
-}
-
 .index {
 	margin: 0;
 
@@ -71,17 +65,16 @@
 				.list__item.item {
 					border-radius: 5px;
 					box-sizing: border-box;
-					display: block;
-					float: left;
-					margin: 1rem 16px;
+					display: inline-block;
+					margin: 1rem 14px;
 					padding: 0.2rem 0.4rem;
 					width: 300px;
 					-webkit-transition: background-color 0.2s ease 0s;
 					-moz-transition: background-color 0.2s ease 0s;
 					transition: background-color 0.2s ease 0s;
+					vertical-align: top;
 
 					@include narrow-width {
-						float: none;
 						margin: 2rem 0;
 						text-align: center;
 						width: 100%;
