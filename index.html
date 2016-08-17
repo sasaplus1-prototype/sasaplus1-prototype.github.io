@@ -22,15 +22,23 @@
             --><h1 class="title__text">{{ site.name }}</h1><!--
           --></a>
         </div>
+
+        <div class="header__filter filter">
+          <input id="js-input-filter" type="text" placeholder="filter">
+        </div>
       </div>
     </header>
 
     <main class="main" role="main">
+      <div class="main__repository-count repository-count">
+        <p class="repository-count__text">{{ site.github.public_repositories | size }} repositories</p>
+      </div>
+
       <nav class="main__repositories repositories">
         <ul class="repositories__list list">
           {% assign repositories = site.github.public_repositories | sort:'updated_at' | reverse %}
           {% for repository in repositories %}
-          <li class="list__item item">
+          <li id="js-repository-id-{{ repository.id }}" class="list__item item">
             <h2 class="item__name">{{ repository.name }}</h2>
             <span class="item__description">{{ repository.description }}</span>
             <div class="item__links">
@@ -69,6 +77,61 @@
         </div>
       </div>
     </footer>
+
+    <script id="json-repository-data" type="application/json">
+      {
+        "repositories": [
+          {% for repository in site.github.public_repositories %}
+          {
+            "id": "{{ repository.id }}",
+            "name": "{{ repository.name }}",
+            "description": "{{ repository.description }}",
+            "html_url": "{{ repository.html_url }}",
+            "homepage": "{{ repository.homepage }}"
+          }{% unless forloop.last %},{% endunless %}
+          {% endfor %}
+        ]
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
+    <script>
+      (function(){
+
+        'use strict';
+
+        var repositoryJSON = document.getElementById('json-repository-data').innerHTML,
+            repositoryData = JSON.parse(repositoryJSON);
+
+        var repositoryElements = document.querySelectorAll('[data-repository-id]');
+
+        /**
+         * for input event
+         *
+         * @param {Event} event
+         */
+        function onInput(event) {
+          var text = event.target.value,
+              i, len;
+
+          if (text) {
+          } else {
+          }
+        }
+
+        /**
+         * initialize events
+         */
+        function initialize() {
+          var inputFilter = document.getElementById('js-input-filter');
+
+          inputFilter.addEventListener('input', _.debounce(onInput, 300), false);
+        }
+
+        document.addEventListener('DOMContentLoaded', initialize, false);
+
+      }());
+    </script>
 
   </body>
 </html>

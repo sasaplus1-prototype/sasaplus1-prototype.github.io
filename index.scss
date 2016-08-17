@@ -56,6 +56,13 @@
 			width: auto;
 		}
 
+		.main__repository-count.repository-count {
+			.repository-count__text {
+				font-family: Verdana, sans-serif;
+				text-align: center;
+			}
+		}
+
 		.main__repositories.repositories {
 			.repositories__list.list {
 				list-style-type: none;
