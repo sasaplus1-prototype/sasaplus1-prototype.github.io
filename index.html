@@ -28,7 +28,8 @@
     <main class="main" role="main">
       <nav class="main__repositories repositories">
         <ul class="repositories__list list">
-          {% for repository in site.github.public_repositories %}
+          {% assign repositories = site.github.public_repositories | sort:'updated_at' | reverse %}
+          {% for repository in repositories %}
           <li class="list__item item">
             <h2 class="item__name">{{ repository.name }}</h2>
             <span class="item__description">{{ repository.description }}</span>
