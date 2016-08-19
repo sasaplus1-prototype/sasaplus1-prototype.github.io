@@ -67,13 +67,13 @@
   }
 
   /**
-   * for input event
+   * filter repositories
    *
-   * @param {Event} event
+   * @param {Object[]} repositories
+   * @param {String} text
    */
-  function onInput(event) {
-    var text = event.target.value,
-        filter;
+  function filterRepository(repositories, text) {
+    var filter;
 
     if (text) {
       filter = _.partialRight(hasFilterText, text.split(/\s+/));
@@ -88,17 +88,103 @@
     repositoryCount.innerHTML = countVisibleRepository(repositories);
   }
 
+  //----------------------------------------------------------------------------
+
+  /**
+   * split query string
+   *
+   * @param {String} text
+   * @return {String[]}
+   */
+  function parseQueryString(text) {
+    return _(text.split('&'))
+      .map(function(q) {
+        return (/=/.exec(q)) ? {
+          key: decodeURIComponent(RegExp.leftContext),
+          value: decodeURIComponent(RegExp.rightContext)
+        } : {
+          key: decodeURIComponent(q),
+          value: ''
+        };
+      })
+      .groupBy('key')
+      .map(function(pair) {
+        return [
+          _.head(pair).key,
+          _.map(pair, 'value')
+        ];
+      })
+      .fromPairs()
+      .value();
+  }
+
+  //----------------------------------------------------------------------------
+
+  /**
+   * for input event
+   *
+   * @param {Event} event
+   */
+  function onInput(event) {
+    var text = event.target.value;
+
+    filterRepository(repositories, text);
+
+    history.pushState({
+      query: text
+    }, null, '/?q=' + encodeURIComponent(text));
+  }
+
+  /**
+   * for popstate event
+   *
+   * @param {Event} event
+   */
+  function onPopState(event) {
+    var text, inputFilter;
+
+    if (event.state && event.state.query) {
+      text = event.state.query;
+    } else {
+      text = '';
+    }
+
+    inputFilter = document.getElementById('js-input-filter');
+
+    if (!inputFilter) {
+      return;
+    }
+
+    inputFilter.value = text;
+
+    filterRepository(repositories, text);
+  }
+
   /**
    * initialize events
    */
   function initialize() {
-    var inputFilter = document.getElementById('js-input-filter');
+    var inputFilter = document.getElementById('js-input-filter'),
+        query, queries, text;
 
     if (!inputFilter) {
       return;
     }
 
     inputFilter.addEventListener('input', _.debounce(onInput, 300), false);
+
+    window.addEventListener('popstate', onPopState, false);
+
+    query = location.search.replace(/^\?/, '');
+    queries = parseQueryString(query);
+
+    if (!queries.q) {
+      return;
+    }
+
+    text = queries.q.join(' ');
+
+    filterRepository(repositories, text);
   }
 
   document.addEventListener('DOMContentLoaded', initialize, false);
