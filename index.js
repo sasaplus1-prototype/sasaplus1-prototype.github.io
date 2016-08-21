@@ -171,7 +171,7 @@
       return;
     }
 
-    inputFilter.addEventListener('input', _.debounce(onInput, 300), false);
+    inputFilter.addEventListener('input', _.debounce(onInput, 500), false);
 
     window.addEventListener('popstate', onPopState, false);
 
