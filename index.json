@@ -1,0 +1,14 @@
+{% capture cache %}
+  {% assign result = nil %}
+  {% assign results = nil %}
+
+  {% for repo in site.github.public_repositories %}
+    {% capture id          %}"id":{{          repo.id          | jsonify }}{% endcapture %}
+    {% capture name        %}"name":{{        repo.name        | jsonify }}{% endcapture %}
+    {% capture description %}"description":{{ repo.description | jsonify }}{% endcapture %}
+    {% capture json        %}{% raw %}{{% endraw %}{{ id }},{{ name }},{{ description }}{% raw %}}{% endraw %}{% endcapture %}
+    {% capture results %}{{ json }}__SPLIT_JSON__{{ results }}{% endcapture %}
+  {% endfor %}
+
+  {% capture result %}[{{ results | split:'__SPLIT_JSON__' | join:',' }}]{% endcapture %}
+{% endcapture %}{% assign cache = nil %}{{ result }}{% assign result = nil%}

@@ -90,17 +90,7 @@
     </footer>
 
     <script id="json-repository-data" type="application/json">
-      {
-        "repositories": [
-          {% for repository in site.github.public_repositories %}
-          {
-            "id": "{{ repository.id }}",
-            "name": "{{ repository.name }}",
-            "description": "{{ repository.description }}"
-          }{% unless forloop.last %},{% endunless %}
-          {% endfor %}
-        ]
-      }
+      {"repositories": {% include_relative index.json %}}
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.15.0/lodash.min.js"></script>
