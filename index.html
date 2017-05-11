@@ -18,6 +18,12 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+      if (typeof navigator.sendBeacon !== 'undefined') {
+        ga('set', 'transport', 'beacon');
+      } else if (typeof XMLHttpRequest !== 'undefined') {
+        ga('set', 'transport', 'xhr');
+      }
+
       ga('create', 'UA-720754-32', 'auto');
       ga('send', 'pageview');
     </script>
